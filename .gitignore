@@ -18,6 +18,13 @@ build/
 .env.test.local
 .env.production.local
 
+# Sensitive setup files
+SETUP.md
+setup.md
+*.setup.md
+deployment.json
+private-keys.txt
+
 # IDE files
 .vscode/
 .idea/
