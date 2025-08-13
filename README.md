@@ -73,7 +73,7 @@ MemeMint is a revolutionary platform where creativity meets blockchain technolog
 **Created by AvaWorld**
 
 Connect with the creator:
-- **Twitter**: [@avaworld16](https://twitter.com/avaworld16)
+- **X**: [@avaworld16](https://x.com/avaworld16)
 - **Telegram**: [@avaworld16](https://t.me/avaworld16)
 - **Discord**: `avaworld`
 
