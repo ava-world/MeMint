@@ -1,18 +1,20 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Zap, Menu, X, Trophy, User, ShoppingBag, Plus } from 'lucide-react'
+import { Menu, X, Plus, ShoppingBag, Trophy, User, Zap, Home, Search } from 'lucide-react'
+import WalletConnect from './WalletConnect'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false)
   const location = useLocation()
 
   const navItems = [
-    { name: 'Home', path: '/', icon: Zap },
+    { name: 'Home', path: '/', icon: Home },
     { name: 'Create', path: '/create', icon: Plus },
+    { name: 'Search', path: '/search', icon: Search },
     { name: 'Marketplace', path: '/marketplace', icon: ShoppingBag },
     { name: 'Leaderboard', path: '/leaderboard', icon: Trophy },
-    { name: 'Profile', path: '/profile', icon: User },
+    { name: 'Profile', path: '/profile', icon: User }
   ]
 
   return (
@@ -34,8 +36,8 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
+            <div className="flex items-baseline space-x-4">
               {navItems.map((item) => {
                 const Icon = item.icon
                 const isActive = location.pathname === item.path
@@ -55,6 +57,7 @@ const Navbar = () => {
                 )
               })}
             </div>
+            <WalletConnect />
           </div>
 
           {/* Mobile menu button */}
@@ -97,6 +100,9 @@ const Navbar = () => {
                 </Link>
               )
             })}
+            <div className="px-3 py-2">
+              <WalletConnect />
+            </div>
           </div>
         </motion.div>
       )}

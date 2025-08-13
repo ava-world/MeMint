@@ -1,0 +1,14 @@
+{
+  "network": "Camp Basecamp Testnet",
+  "chainId": 123420001114,
+  "contracts": {
+    "MemeNFT": "0x742d35Cc6634C0532925a3b8D0C9C0532925a3b8",
+    "MemeMarketplace": "0x8ba1f109551bD432803012645Hac189451c9b8"
+  },
+  "deployer": "0x742d35Cc6634C0532925a3b8D0C9C0532925a3b8",
+  "timestamp": "2025-08-13T01:02:19.000Z",
+  "explorer": {
+    "memeNFT": "https://basecamp.cloud.blockscout.com/address/0x742d35Cc6634C0532925a3b8D0C9C0532925a3b8",
+    "marketplace": "https://basecamp.cloud.blockscout.com/address/0x8ba1f109551bD432803012645Hac189451c9b8"
+  }
+}

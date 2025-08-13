@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Trophy, Crown, Medal, TrendingUp, Heart, GitBranch, DollarSign, Zap } from 'lucide-react';
+import { Trophy, Crown, Medal, TrendingUp, GitBranch, DollarSign } from 'lucide-react';
 
 const Leaderboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState('creators');

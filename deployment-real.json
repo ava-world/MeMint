@@ -1,0 +1,16 @@
+{
+  "network": "Camp Basecamp Testnet",
+  "chainId": 123420001114,
+  "rpcUrl": "https://rpc.basecamp.t.raas.gelato.cloud",
+  "explorerUrl": "https://basecamp.cloud.blockscout.com",
+  "contracts": {
+    "MemeNFT": "0x05CbD9a80756171Fa6eB558Ff8c2Ac7f7d08EACA",
+    "MemeMarketplace": "0xe4930a67e86Ad009AfA28F45C90080f18443500E"
+  },
+  "deployer": "0xC1187DCdBc765826DD25283CA3030778cfd5AaC3",
+  "timestamp": "2025-08-13T07:58:52.198Z",
+  "transactionHashes": {
+    "memeNFT": "https://basecamp.cloud.blockscout.com/address/0x05CbD9a80756171Fa6eB558Ff8c2Ac7f7d08EACA",
+    "marketplace": "https://basecamp.cloud.blockscout.com/address/0xe4930a67e86Ad009AfA28F45C90080f18443500E"
+  }
+}

@@ -7,30 +7,43 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "deploy": "node scripts/deploy.js",
+    "compile": "hardhat compile"
   },
   "dependencies": {
-    "fabric": "^5.3.0",
-    "framer-motion": "^10.0.0",
-    "html2canvas": "^1.4.1",
-    "lucide-react": "^0.263.1",
+    "@tanstack/react-query": "^4.36.1",
+    "ethers": "^6.8.0",
+    "framer-motion": "^10.16.0",
+    "lucide-react": "^0.290.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
-    "react-router-dom": "^6.8.0",
-    "zustand": "^4.4.1"
+    "react-router-dom": "^6.17.0",
+    "viem": "^1.19.0",
+    "wagmi": "^1.4.13"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.24",
-    "tailwindcss": "^3.3.0",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@openzeppelin/contracts": "^4.9.3",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.1.0",
+    "autoprefixer": "^10.4.16",
+    "dotenv": "^16.3.0",
+    "fs-extra": "^11.0.0",
+    "hardhat": "^2.17.1",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "typescript": "^5.2.0",
+    "vite": "^4.5.0"
   },
   "keywords": [
     "meme",
     "blockchain",
     "nft",
     "marketplace",
+    "web3",
     "camp",
     "gasless"
   ],
