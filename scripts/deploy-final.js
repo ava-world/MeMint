@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const PRIVATE_KEY = '4451e6c04921e726197a7e5c8483944c44bbcae24dcdc2f5192560c533602434';
+const PRIVATE_KEY = process.env.PRIVATE_KEY || '';
 const RPC_URL = 'https://rpc.basecamp.t.raas.gelato.cloud';
 const CHAIN_ID = 123420001114;
 const EXPLORER_URL = 'https://basecamp.cloud.blockscout.com';

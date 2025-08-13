@@ -76,16 +76,21 @@ const Home = () => {
             className="mt-16 relative"
           >
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-              {[1, 2, 3, 4].map((i) => (
+              {[
+                { emoji: '🚀', title: 'To The Moon!' },
+                { emoji: '💎', title: 'Diamond Hands' },
+                { emoji: '🔥', title: 'This Is Fine' },
+                { emoji: '🧠', title: 'Galaxy Brain' }
+              ].map((meme, i) => (
                 <motion.div
                   key={i}
                   className="card bg-gradient-to-br from-white/10 to-white/5 p-4 float-animation"
                   style={{ animationDelay: `${i * 0.2}s` }}
                 >
                   <div className="w-full h-32 bg-gradient-to-br from-primary-500/20 to-accent-500/20 rounded-lg flex items-center justify-center">
-                    <span className="text-4xl">🚀</span>
+                    <span className="text-4xl">{meme.emoji}</span>
                   </div>
-                  <p className="text-sm text-gray-300 mt-2">Sample Meme #{i}</p>
+                  <p className="text-sm text-gray-300 mt-2">{meme.title}</p>
                 </motion.div>
               ))}
             </div>

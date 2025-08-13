@@ -1,9 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { User, Settings, Heart, GitBranch, DollarSign, TrendingUp, Edit3, Share2, Eye } from 'lucide-react'
+import { User, Settings, Heart, GitBranch, DollarSign, Edit3, Share2, Eye, Camera, Save, X } from 'lucide-react'
+import { useWallet } from '../contexts/WalletContext'
+import toast from 'react-hot-toast'
 
 const Profile = () => {
+  const { address, isConnected } = useWallet()
   const [activeTab, setActiveTab] = useState('created')
+  const [isEditingUsername, setIsEditingUsername] = useState(false)
+  const [username, setUsername] = useState('')
+  const [tempUsername, setTempUsername] = useState('')
+  const [profileImage, setProfileImage] = useState<string | null>(null)
+  const [isUploadingImage, setIsUploadingImage] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const tabs = [
     { id: 'created', label: 'Created', count: 24 },
@@ -11,6 +20,56 @@ const Profile = () => {
     { id: 'remixed', label: 'Remixed', count: 8 },
     { id: 'liked', label: 'Liked', count: 156 }
   ]
+
+  // Load user data from localStorage
+  useEffect(() => {
+    if (address) {
+      const savedUsername = localStorage.getItem(`username_${address}`)
+      const savedProfileImage = localStorage.getItem(`profileImage_${address}`)
+      
+      if (savedUsername) {
+        setUsername(savedUsername)
+      } else {
+        setUsername(`User_${address.slice(0, 6)}`)
+      }
+      
+      if (savedProfileImage) {
+        setProfileImage(savedProfileImage)
+      }
+    }
+  }, [address])
+
+  const saveUsername = () => {
+    if (tempUsername.trim() && address) {
+      setUsername(tempUsername.trim())
+      localStorage.setItem(`username_${address}`, tempUsername.trim())
+      setIsEditingUsername(false)
+      toast.success('Username updated successfully!')
+    }
+  }
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) { // 5MB limit
+        toast.error('Image size must be less than 5MB')
+        return
+      }
+      
+      setIsUploadingImage(true)
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        const result = e.target?.result as string
+        setProfileImage(result)
+        if (address) {
+          localStorage.setItem(`profileImage_${address}`, result)
+          toast.success('Profile picture updated!')
+        }
+        setIsUploadingImage(false)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
 
   const userStats = {
     totalEarnings: '$2,847',
@@ -67,6 +126,30 @@ const Profile = () => {
     }
   }
 
+  if (!isConnected) {
+    return (
+      <div className="min-h-screen py-8 px-4 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="card text-center p-8 max-w-md"
+        >
+          <User className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-white mb-4">Connect Your Wallet</h2>
+          <p className="text-gray-300 mb-6">
+            Please connect your wallet to view and manage your profile.
+          </p>
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="btn-primary"
+          >
+            Go to Home
+          </button>
+        </motion.div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen py-8 px-4">
       <div className="max-w-6xl mx-auto">
@@ -80,27 +163,104 @@ const Profile = () => {
           <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
             {/* Avatar */}
             <div className="relative">
-              <div className="w-32 h-32 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-6xl">
-                👨‍🎨
+              <div className="w-32 h-32 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center text-6xl overflow-hidden">
+                {profileImage ? (
+                  <img 
+                    src={profileImage} 
+                    alt="Profile" 
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <User className="w-16 h-16 text-white" />
+                )}
               </div>
-              <button className="absolute bottom-2 right-2 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
-                <Edit3 className="w-4 h-4 text-white" />
+              <button 
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploadingImage}
+                className="absolute bottom-2 right-2 w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition-colors disabled:opacity-50"
+                title="Upload profile picture"
+                aria-label="Upload profile picture"
+              >
+                {isUploadingImage ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <Camera className="w-4 h-4 text-white" />
+                )}
               </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="hidden"
+                aria-label="Profile picture upload"
+              />
             </div>
 
             {/* User Info */}
             <div className="flex-1 text-center md:text-left">
               <div className="flex flex-col md:flex-row md:items-center md:space-x-4 mb-4">
-                <h1 className="text-3xl font-bold text-white">MemeCreator42</h1>
+                {isEditingUsername ? (
+                  <div className="flex items-center space-x-2 mb-2 md:mb-0">
+                    <input
+                      type="text"
+                      value={tempUsername}
+                      onChange={(e) => setTempUsername(e.target.value)}
+                      className="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white text-xl font-bold focus:outline-none focus:border-primary-400"
+                      placeholder="Enter username"
+                      autoFocus
+                    />
+                    <button
+                      onClick={saveUsername}
+                      className="p-2 bg-green-500 hover:bg-green-600 rounded-lg transition-colors"
+                      title="Save username"
+                      aria-label="Save username"
+                    >
+                      <Save className="w-4 h-4 text-white" />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setIsEditingUsername(false)
+                        setTempUsername('')
+                      }}
+                      className="p-2 bg-red-500 hover:bg-red-600 rounded-lg transition-colors"
+                      title="Cancel editing"
+                      aria-label="Cancel editing username"
+                    >
+                      <X className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="flex items-center space-x-2 mb-2 md:mb-0">
+                    <h1 className="text-3xl font-bold text-white">{username}</h1>
+                    <button
+                      onClick={() => {
+                        setTempUsername(username)
+                        setIsEditingUsername(true)
+                      }}
+                      className="p-1 bg-white/10 hover:bg-white/20 rounded transition-colors"
+                      title="Edit username"
+                      aria-label="Edit username"
+                    >
+                      <Edit3 className="w-4 h-4 text-white" />
+                    </button>
+                  </div>
+                )}
                 <span className="px-3 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-sm rounded-full">
                   {userStats.badge}
                 </span>
                 <span className="text-gray-400">Rank #{userStats.rank}</span>
               </div>
               
+              <div className="mb-4">
+                <p className="text-sm text-gray-400 font-mono">
+                  {address}
+                </p>
+              </div>
+              
               <p className="text-gray-300 mb-6 max-w-md">
-                Creating viral memes since 2023. Passionate about crypto, tech, and making people laugh. 
-                Building the future of internet culture, one meme at a time! 🚀
+                Creating viral memes and building the future of internet culture! 
+                Welcome to the decentralized meme revolution. 🚀
               </p>
 
               <div className="flex flex-wrap justify-center md:justify-start gap-6 text-sm">
