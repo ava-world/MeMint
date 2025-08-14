@@ -1,0 +1,18 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production.environment]
+  VITE_RPC_URL = "https://rpc.basecamp.t.raas.gelato.cloud"
+  VITE_CHAIN_ID = "123420001114"
+  VITE_EXPLORER_URL = "https://basecamp.cloud.blockscout.com"
+  VITE_MEME_NFT_CONTRACT = "0x05CbD9a80756171Fa6eB558Ff8c2Ac7f7d08EACA"
+  VITE_MARKETPLACE_CONTRACT = "0xe4930a67e86Ad009AfA28F45C90080f18443500E"
